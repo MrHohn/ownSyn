@@ -1,0 +1,24 @@
+CC = g++
+
+HADOOP_INSTALL = /usr/local/hadoop
+
+CPPFLAGS = -O3 -Wall -I$(HADOOP_INSTALL)/include
+
+LFLAGS = -lpthread -L$(HADOOP_INSTALL)/lib/native -lhadooppipes
+
+SOURCES = wordcount.cpp main.cpp
+
+OBJECTS = $(SOURCES:.cpp=.o)
+
+EXECUTABLE = wordcount
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LFLAGS)
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm -rf *.o $(EXECUTABLE)

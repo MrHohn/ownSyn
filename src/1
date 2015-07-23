@@ -1,0 +1,23 @@
+.SUFFIXES:.h .c .cpp .o
+ 
+CC=g++ -m32
+#CPPFLAGS = -m32
+RM = rm  
+SRCS = wordcount.cpp main.cpp  
+PROGRAM = wordcount  
+OBJS = $(SRCS:.cpp=.o)
+HADOOP_DEV_HOME = /usr/local/hadoop
+ 
+INC_PATH = -I$(HADOOP_DEV_HOME)/include -I/usr/include/i386-linux-gnu/c++/4.7/ -I/usr/include/i386-linux-gnu/
+LIB_PATH = -L$(HADOOP_DEV_HOME)/lib/native
+LIBS = -lhadooppipes -lcrypto -lhadooputils -lpthread
+ 
+$(PROGRAM):$(OBJS)  
+	$(CC) $? -Wall $(LIB_PATH) $(LIBS)  -g -O2 -o $@  
+
+$(OBJS):$(SRCS)  
+	$(CC) $(CPPFLAGS) -c $(SRCS)  $(INC_PATH)
+
+.PHONY:clean  
+clean:  
+	$(RM) $(PROGRAM) $(OBJS)
